@@ -1,20 +1,33 @@
 package nrainhas.nrainhas_frontend;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nrainhas.nrainhas_frontend.controller.RainhaController;
+import nrainhas.nrainhas_frontend.controller.TabuleiroController;
+import nrainhas.nrainhas_frontend.model.Tabuleiro;
+import nrainhas.nrainhas_frontend.view.TabuleiroView;
 
 import java.io.IOException;
+import java.time.Duration;
 
 public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("/hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        int tamanhoTabuleiro = 2;
+        int quantidadeRainhas = 1;
 
-        stage.setTitle("Desenhando linha");
+        Tabuleiro tabuleiro = new Tabuleiro(tamanhoTabuleiro);
+        TabuleiroView tabuleiroView = new TabuleiroView(tamanhoTabuleiro);
+        RainhaController rainhaController = new RainhaController(tabuleiro, tabuleiroView);
+        TabuleiroController tabuleiroController = new TabuleiroController(tabuleiro, tabuleiroView, quantidadeRainhas);
+
+        tabuleiroController.adicionarRainhas();
+
+        rainhaController.iniciarMovimentoAleatorio();
+
+        Scene scene = new Scene(tabuleiroView);
+        stage.setTitle("Tabuleiro N Rainhas");
         stage.setScene(scene);
         stage.show();
     }

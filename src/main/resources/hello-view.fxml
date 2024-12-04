@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.layout.Pane?>
-
-<Pane fx:id="drawingPane" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="nrainhas.nrainhas_frontend.MainController"
-      prefWidth="600" prefHeight="400" style="-fx-background-color: #1D4350;">
-</Pane>
-
