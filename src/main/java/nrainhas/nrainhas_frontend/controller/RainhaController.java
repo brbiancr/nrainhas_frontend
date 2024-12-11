@@ -7,6 +7,7 @@ import nrainhas.nrainhas_frontend.model.Rainha;
 import nrainhas.nrainhas_frontend.model.Tabuleiro;
 import nrainhas.nrainhas_frontend.view.TabuleiroView;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class RainhaController {
@@ -20,7 +21,11 @@ public class RainhaController {
     }
 
     public void adicionarRainhaAleatoria() {
-        int[] posicao = gerarPosicaoAleatoria();
+        int[] posicao;
+
+        do{
+            posicao = gerarPosicaoAleatoria();
+        } while(colisao(posicao));
 
         Rainha rainha = new Rainha(posicao[0], posicao[1]);
 
@@ -28,6 +33,13 @@ public class RainhaController {
         tabuleiroView.adicionarRainha(rainha);
     }
 
+    private boolean colisao(int[] posicao) {
+        for(Rainha rainha: tabuleiro.getRainhas()){
+            if(rainha.getLinha() == posicao[0] && rainha.getColuna() == posicao[1])
+                return true;
+        }
+        return false;
+    }
 
     public void moverRainhaAleatoriamente(Rainha rainha) {
         int linhaAntiga = rainha.getLinha();
@@ -35,7 +47,11 @@ public class RainhaController {
 
         tabuleiroView.removerRainha(rainha);
 
-        int[] novaPosicao = gerarPosicaoAleatoria(); // Nova posição da rainha
+        int[] novaPosicao;
+
+        do{
+            novaPosicao = gerarPosicaoAleatoria(); // Nova posição da rainha
+        } while (colisao(novaPosicao));
 
         rainha.setLinha(novaPosicao[0]);
         rainha.setColuna(novaPosicao[1]);

@@ -14,8 +14,8 @@ import java.time.Duration;
 public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        int tamanhoTabuleiro = 2;
-        int quantidadeRainhas = 1;
+        int tamanhoTabuleiro = 4;
+        int quantidadeRainhas = 3;
 
         Tabuleiro tabuleiro = new Tabuleiro(tamanhoTabuleiro);
         TabuleiroView tabuleiroView = new TabuleiroView(tamanhoTabuleiro);
