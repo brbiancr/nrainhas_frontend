@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml"
+          fx:controller="nrainhas.nrainhas_frontend.controller.TelaPrincipalController"
+          styleClass="telaPrincipal"
+          prefWidth="300" prefHeight="350" minWidth="300" minHeight="350" maxWidth="600" maxHeight="600"
+          alignment="CENTER" hgap="10" vgap="15">
+
+    <Label text="Número de Rodadas" layoutX="20" layoutY="20"
+           styleClass="label"
+           GridPane.rowIndex="0"
+           GridPane.halignment="CENTER"/>
+
+    <TextField fx:id="rodadasField" layoutX="150" layoutY="20" prefWidth="150"
+               styleClass="textField"
+               GridPane.rowIndex="1"
+               GridPane.halignment="CENTER"/>
+
+    <Button fx:id="iniciarButton" text="Iniciar" layoutX="150" layoutY="60"
+            styleClass="button"
+            GridPane.rowIndex="2"
+            GridPane.halignment="CENTER"/>
+</GridPane>

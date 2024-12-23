@@ -3,7 +3,11 @@ module nrainhas.nrainhas_frontend {
     requires javafx.fxml;
 
     requires org.controlsfx.controls;
+    requires java.desktop;
+
+    opens nrainhas.nrainhas_frontend.controller to javafx.fxml;
 
     opens nrainhas.nrainhas_frontend to javafx.fxml;
     exports nrainhas.nrainhas_frontend;
+    exports nrainhas.nrainhas_frontend.controller;
 }

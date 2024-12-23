@@ -2,7 +2,6 @@ package nrainhas.nrainhas_frontend.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Tabuleiro {
     private int tamanho;

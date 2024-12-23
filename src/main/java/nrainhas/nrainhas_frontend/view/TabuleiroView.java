@@ -17,6 +17,7 @@ public class TabuleiroView extends GridPane {
     }
 
     public void inicializarTabuleiro(int tamanho){
+
         coresTabuleiro = new Color[tamanho][tamanho]; // Inicializa o array de cores
 
         for (int i = 0; i < tamanho; i++) {

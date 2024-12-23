@@ -1,9 +1,5 @@
 package nrainhas.nrainhas_frontend.controller;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
-import nrainhas.nrainhas_frontend.model.Rainha;
 import nrainhas.nrainhas_frontend.model.Tabuleiro;
 import nrainhas.nrainhas_frontend.view.TabuleiroView;
 

@@ -7,7 +7,6 @@ import nrainhas.nrainhas_frontend.model.Rainha;
 import nrainhas.nrainhas_frontend.model.Tabuleiro;
 import nrainhas.nrainhas_frontend.view.TabuleiroView;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class RainhaController {
@@ -66,14 +65,21 @@ public class RainhaController {
         return new int[]{linha, coluna};
     }
 
-    public void iniciarMovimentoAleatorio() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            if (!tabuleiro.getRainhas().isEmpty())
+    public void iniciarMovimentoAleatorio(int rodadas) {
+
+        final int[] rodadasRestantes = {rodadas};
+
+        Timeline timeline = new Timeline();
+
+        for(int i = 0; i < rodadas; i++){
+            KeyFrame keyFrame = new KeyFrame(Duration.seconds(i), event -> {
                 tabuleiro.getRainhas().forEach(this::moverRainhaAleatoriamente);
+            });
 
-        }));
+            timeline.getKeyFrames().add(keyFrame);
+        }
 
-        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.setCycleCount(1);
         timeline.play();
     }
 }

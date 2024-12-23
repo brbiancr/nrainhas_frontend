@@ -1,8 +1,5 @@
 package nrainhas.nrainhas_frontend.model;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 public class Rainha {
     private int linha;
     private int coluna;
