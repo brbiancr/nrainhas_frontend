@@ -2,84 +2,103 @@ package nrainhas.nrainhas_frontend.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import nrainhas.nrainhas_frontend.model.Rainha;
-import nrainhas.nrainhas_frontend.model.Tabuleiro;
-import nrainhas.nrainhas_frontend.view.TabuleiroView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class RainhaController {
 
-    private Tabuleiro tabuleiro;
-    private TabuleiroView tabuleiroView;
+    private GridPane tabuleiroGrid;
+    private int tamanhoTabuleiro;
+    private List<Rainha> rainhas;
+    private TabuleiroController tabuleiroController;
+    private Timeline timeline;
+    private Random random;
 
-    public RainhaController(Tabuleiro tabuleiro, TabuleiroView tabuleiroView) {
-        this.tabuleiro = tabuleiro;
-        this.tabuleiroView = tabuleiroView;
+    public RainhaController(GridPane tabuleiroGrid, int tamanhoTabuleiro, TabuleiroController tabuleiroController){
+        this.tabuleiroGrid = tabuleiroGrid;
+        this.tamanhoTabuleiro = tamanhoTabuleiro;
+        this.rainhas = new ArrayList<>();
+        this.random = new Random();
+        this.tabuleiroController = tabuleiroController;
     }
 
-    public void adicionarRainhaAleatoria() {
-        int[] posicao;
+    public void inicializarRainhas(){
+        rainhas.clear();
 
-        do{
-            posicao = gerarPosicaoAleatoria();
-        } while(colisao(posicao));
-
-        Rainha rainha = new Rainha(posicao[0], posicao[1]);
-
-        tabuleiro.adicionarRainha(rainha);
-        tabuleiroView.adicionarRainha(rainha);
-    }
-
-    private boolean colisao(int[] posicao) {
-        for(Rainha rainha: tabuleiro.getRainhas()){
-            if(rainha.getLinha() == posicao[0] && rainha.getColuna() == posicao[1])
-                return true;
+        for(int i = 0; i < tamanhoTabuleiro; i++) {
+            Rainha rainha = new Rainha(i, gerarPosicaoAleatoria()); // Gera uma rainha por linha
+            rainhas.add(rainha);
+            adicionarRainhaVisual(rainha);
         }
-        return false;
     }
 
-    public void moverRainhaAleatoriamente(Rainha rainha) {
-        int linhaAntiga = rainha.getLinha();
-        int colunaAntiga = rainha.getColuna();
-
-        tabuleiroView.removerRainha(rainha);
-
-        int[] novaPosicao;
-
-        do{
-            novaPosicao = gerarPosicaoAleatoria(); // Nova posição da rainha
-        } while (colisao(novaPosicao));
-
-        rainha.setLinha(novaPosicao[0]);
-        rainha.setColuna(novaPosicao[1]);
-
-        tabuleiroView.atualizarRainhaVisual(linhaAntiga, colunaAntiga, rainha);
+    private int gerarPosicaoAleatoria() {
+        return random.nextInt(tamanhoTabuleiro);
     }
 
-    private int[] gerarPosicaoAleatoria() {
-        Random random = new Random();
-        int linha = random.nextInt(tabuleiro.getTamanho());
-        int coluna = random.nextInt(tabuleiro.getTamanho());
-        return new int[]{linha, coluna};
+    private void adicionarRainhaVisual(Rainha rainha){
+        Image rainhaImage = new Image(getClass().getResourceAsStream("/coroa.png"));
+        ImageView rainhaView = new ImageView(rainhaImage);
+
+        // Ajuste do tamanho da imagem
+        rainhaView.setFitWidth(40); // Define a largura
+        rainhaView.setFitHeight(40); // Define a altura
+        rainhaView.setPreserveRatio(true); // Mantém a proporção da imagem
+
+        //Circle celulaRainha = new Circle(20);
+        //celulaRainha.setFill(Color.GREEN);
+
+        tabuleiroGrid.add(rainhaView, rainha.getColuna(), rainha.getLinha());
+
+        GridPane.setHalignment(rainhaView, HPos.CENTER);
+        GridPane.setValignment(rainhaView, VPos.CENTER);
     }
 
-    public void iniciarMovimentoAleatorio(int rodadas) {
+    public void iniciarMovimento(int rodadas){
+        if(timeline != null)
+            timeline.stop();
 
-        final int[] rodadasRestantes = {rodadas};
-
-        Timeline timeline = new Timeline();
-
-        for(int i = 0; i < rodadas; i++){
-            KeyFrame keyFrame = new KeyFrame(Duration.seconds(i), event -> {
-                tabuleiro.getRainhas().forEach(this::moverRainhaAleatoriamente);
-            });
-
-            timeline.getKeyFrames().add(keyFrame);
-        }
-
-        timeline.setCycleCount(1);
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> moverRainhas()));
+        timeline.setCycleCount(rodadas);
+        tabuleiroController.setMovimentoTimeline(timeline);
         timeline.play();
+    }
+
+    private void moverRainhas(){
+        tabuleiroGrid.getChildren().clear(); // Limpa o tabuleiro para a proxima rodada
+
+        // Atualiza as cores do tabuleiro
+        tabuleiroController.gerarTabuleiro();
+
+        // Move cada rainha para uma nova posição aleatória
+        for (Rainha rainha : rainhas) {
+            // Atualize a posição da rainha diretamente
+            rainha.setColuna(gerarPosicaoAleatoria());
+
+            // Atualize visualmente sem recriar
+            Node rainhaNode = obterRainhaVisual(rainha);
+            GridPane.setColumnIndex(rainhaNode, rainha.getColuna());
+            GridPane.setRowIndex(rainhaNode, rainha.getLinha());
+
+            adicionarRainhaVisual(rainha);
+        }
+    }
+
+    // Busque o Node correspondente à rainha no tabuleiroGrid
+    private Node obterRainhaVisual(Rainha rainha) {
+        return tabuleiroGrid.getChildren().stream()
+                .filter(node -> GridPane.getRowIndex(node) == rainha.getLinha() &&
+                        GridPane.getColumnIndex(node) == rainha.getColuna())
+                .findFirst().orElse(null);
     }
 }

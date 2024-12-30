@@ -1,0 +1,13 @@
+.tabuleiro {
+    -fx-background: white;
+}
+
+.button{
+    -fx-background-color: #abbaab;
+    -fx-font-size: 18px;
+    -fx-text-fill:  white;
+}
+
+.bordaGridPane{
+    -fx-border-color: black;
+}

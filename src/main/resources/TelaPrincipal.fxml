@@ -7,7 +7,7 @@
           fx:controller="nrainhas.nrainhas_frontend.controller.TelaPrincipalController"
           styleClass="telaPrincipal"
           prefWidth="300" prefHeight="350" minWidth="300" minHeight="350" maxWidth="600" maxHeight="600"
-          alignment="CENTER" hgap="10" vgap="15">
+          alignment="CENTER" >
 
     <Label text="Número de Rodadas" layoutX="20" layoutY="20"
            styleClass="label"

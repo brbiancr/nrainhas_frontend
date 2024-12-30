@@ -1,17 +1,16 @@
 package nrainhas.nrainhas_frontend.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import nrainhas.nrainhas_frontend.model.Tabuleiro;
-import nrainhas.nrainhas_frontend.view.TabuleiroView;
 
 public class TelaPrincipalController {
 
-    private int tamanhoTabuleiro = 8;
-    private Stage stage;
+    private Stage stage; // Janela principal
 
     @FXML
     private TextField rodadasField;
@@ -21,16 +20,10 @@ public class TelaPrincipalController {
 
     @FXML
     private void initialize() {
-        // Ação quando o botão "Iniciar" for clicado
         iniciarButton.setOnAction(event -> iniciarRodadas());
     }
 
     private void iniciarRodadas() {
-        if(stage == null){
-            System.out.println("Stage null");
-            return;
-        }
-
         try {
             int rodadas = Integer.parseInt(rodadasField.getText());
 
@@ -38,30 +31,37 @@ public class TelaPrincipalController {
                 throw new NumberFormatException();
             }
 
-            exibirTabuleiro(rodadas);
+            carregarTabuleiro(rodadas);
 
         } catch (NumberFormatException e) {
             System.out.println("Por favor, insira um número válido.");
         }
     }
 
-    private void exibirTabuleiro(int rodadas){
-        Tabuleiro tabuleiro = new Tabuleiro(tamanhoTabuleiro);
-        TabuleiroView tabuleiroView = new TabuleiroView(tamanhoTabuleiro);
-        TabuleiroController tabuleiroController = new TabuleiroController(tabuleiro, tabuleiroView, tamanhoTabuleiro);
-        RainhaController rainhaController = new RainhaController(tabuleiro, tabuleiroView);
+    private void carregarTabuleiro(int rodadas){
+        try{
+            // Carregar o arquivo FXML do tabuleiro
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Tabuleiro.fxml"));
 
-        // Adicionar o TabuleiroView à cena
-        Scene tabuleiroScene = new Scene(tabuleiroView);
-        stage.setTitle("Tabuleiro N Rainhas");
-        stage.setScene(tabuleiroScene);
+            loader.setControllerFactory(param -> new TabuleiroController(rodadas));
 
-        tabuleiroController.adicionarRainhas();
+            Parent tabuleiroRoot = loader.load();
 
-        rainhaController.iniciarMovimentoAleatorio(rodadas);
+            // Obter o controlador do tabuleiro
+            TabuleiroController controller = loader.getController();
+            controller.inicializar();
+
+            // Configurar a nova cena no stage
+            Scene scene = new Scene(tabuleiroRoot);
+            stage.setScene(scene);
+            scene.getStylesheets().add(getClass().getResource("/Tabuleiro.css").toExternalForm());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setStage(Stage stage) {
-        this.stage = stage;
+        this.stage = stage; // Injetar a referência do Stage principal
     }
 }
