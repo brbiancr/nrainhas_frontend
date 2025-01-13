@@ -20,16 +20,16 @@ public class RainhaController {
     private GridPane tabuleiroGrid;
     private int tamanhoTabuleiro;
     private List<Rainha> rainhas;
-    private TabuleiroController tabuleiroController;
+    private TelaPrincipalController telaPrincipalController;
     private Timeline timeline;
     private Random random;
 
-    public RainhaController(GridPane tabuleiroGrid, int tamanhoTabuleiro, TabuleiroController tabuleiroController){
+    public RainhaController(GridPane tabuleiroGrid, int tamanhoTabuleiro, TelaPrincipalController telaPrincipalController){
         this.tabuleiroGrid = tabuleiroGrid;
         this.tamanhoTabuleiro = tamanhoTabuleiro;
         this.rainhas = new ArrayList<>();
         this.random = new Random();
-        this.tabuleiroController = tabuleiroController;
+        this.telaPrincipalController = telaPrincipalController;
     }
 
     public void inicializarRainhas(){
@@ -70,7 +70,7 @@ public class RainhaController {
 
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> moverRainhas()));
         timeline.setCycleCount(rodadas);
-        tabuleiroController.setMovimentoTimeline(timeline);
+        telaPrincipalController.setMovimentoTimeline(timeline);
         timeline.play();
     }
 
@@ -78,7 +78,7 @@ public class RainhaController {
         tabuleiroGrid.getChildren().clear(); // Limpa o tabuleiro para a proxima rodada
 
         // Atualiza as cores do tabuleiro
-        tabuleiroController.gerarTabuleiro();
+        telaPrincipalController.gerarTabuleiro();
 
         // Move cada rainha para uma nova posição aleatória
         for (Rainha rainha : rainhas) {
