@@ -4,7 +4,7 @@
 
 Este é o frontend da aplicação desenvolvida para resolver o problema das N-Rainhas, utilizando a heurística de Algoritmo Genético. A aplicação foi criada como parte de um projeto de Iniciação Científica com o objetivo de estudar e aplicar técnicas de otimização e inteligência artificial.
 
-## Visão Geral
+## 📌 Visão Geral
 
 A aplicação oferece uma interface gráfica em JavaFX onde o usuário pode interagir com um tabuleiro de N x N, visualizar o movimento das rainhas de acordo com o algoritmo genético e acompanhar o progresso das rodadas.
 
@@ -25,4 +25,12 @@ A aplicação oferece uma interface gráfica em JavaFX onde o usuário pode inte
 ![image](https://github.com/user-attachments/assets/e9c14929-9307-44f9-984d-d6eb143226f7)
 ![image](https://github.com/user-attachments/assets/120fa6c3-e20b-48cd-96ee-26d89d57cae8)
 
+## 📎 Repositório Relacionado
 
+> 🔗 Este projeto é uma evolução do [repositório original](https://github.com/brbiancr/NRainhas), que contém a primeira versão do Algoritmo Genético para o problema das N-Rainhas.
+
+## 👩‍💻 Desenvolvido por
+
+**Bianca Beatriz Ribeiro**  
+Universidade Federal de Uberlândia – UFU  
+Projeto com apoio da **FAPEMIG**
